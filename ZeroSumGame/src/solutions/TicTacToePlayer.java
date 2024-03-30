@@ -2,6 +2,7 @@ package solutions;
 
 import core_algorithms.Minimax;
 import problems.TicTacToe;
+import java.util.Scanner;
 
 public class TicTacToePlayer extends Minimax<char[][], int[]> {
 
@@ -12,14 +13,14 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
     public void play() {
         TicTacToe game = new TicTacToe(3, TicTacToe.Marks.X);
         char[][] board = new char[3][3];
-        int x = 0;
+        Scanner scanner = new Scanner(System.in);
 
-        while (x == 0) {
+        while (!game.isTerminal(board)) {
             printBoard(board);
-            int[] aiMove = minimaxSearch(board);// Use minimaxSearch for AI move
-            board = game.execute(aiMove, board);
+            board = game.execute(minimaxSearch(board), board);
             printBoard(board);
-            x++;
+            int [] humanMove = humanMove(scanner);
+            board = game.execute(humanMove, board);
         }
 
         System.out.println("Game over!");
@@ -32,7 +33,13 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
             System.out.println("It's a draw!");
         }
     }
-
+    public int [] humanMove(Scanner scanner){
+        System.out.println("Enter your row: ");
+        int row =  scanner.nextInt() - 1;
+        System.out.println("Enter your column: ");
+        int column = scanner.nextInt() - 1;
+        return new int[]{row, column};
+    }
 
 
 
