@@ -1,6 +1,7 @@
 package problems;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TicTacToe implements Game<char[][], int[]>{
@@ -42,17 +43,21 @@ public class TicTacToe implements Game<char[][], int[]>{
     }
 
     public char[][] execute(int[] position, char[][] board){
+        char[][] newBoard = new char[board.length][];
+        for (int i = 0; i < board.length; i++) {
+            newBoard[i] = Arrays.copyOf(board[i], board[i].length);
+        }
         if(turn == Marks.X){
-            board[position[0]][position[1]] =
+            newBoard[position[0]][position[1]] =
                     Marks.X.toString().charAt(0);
         }else{
-            board[position[0]][position[1]] =
+            newBoard[position[0]][position[1]] =
                     Marks.O.toString().charAt(0);
         }
         marked[position[0]][position[1]] = true;
         switchTurn();
-        return board;
-    }
+        return newBoard;
+}
 
     public char[][] undo(int[] position, char[][] board){
         board[position[0]][position[1]] = ' ';
@@ -139,17 +144,17 @@ public class TicTacToe implements Game<char[][], int[]>{
 
     public List<int[]> actions(char[][] board){
         List<int[]> results = new ArrayList<>();
-        for(int row=0; row<BOARD_SIZE; row++){
-            for(int column=0; column<BOARD_SIZE; column++){
-                if(!marked[row][column]) {
-                    int[] position = new int[2];
-                    position[0] = row;
-                    position[1] = column;
-                    results.add(position);
-                }
+    for(int row=0; row<BOARD_SIZE; row++){
+        for(int column=0; column<BOARD_SIZE; column++){
+            if(board[row][column] == ' ') {  // replace ' ' with the initial value of a cell
+                int[] position = new int[2];
+                position[0] = row;
+                position[1] = column;
+                results.add(position);
             }
         }
-        return results;
+    }
+    return results;
     }
 
 

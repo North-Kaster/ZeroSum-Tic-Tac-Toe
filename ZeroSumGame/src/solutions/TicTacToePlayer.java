@@ -2,6 +2,8 @@ package solutions;
 
 import core_algorithms.Minimax;
 import problems.TicTacToe;
+
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TicTacToePlayer extends Minimax<char[][], int[]> {
@@ -13,14 +15,23 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
     public void play() {
         TicTacToe game = new TicTacToe(3, TicTacToe.Marks.X);
         char[][] board = new char[3][3];
+        for (int i = 0; i < 3; i++) {
+            Arrays.fill(board[i], ' ');
+        }
         Scanner scanner = new Scanner(System.in);
+        
 
         while (!game.isTerminal(board)) {
+            System.out.println("While loop start: ");
             printBoard(board);
-            board = game.execute(minimaxSearch(board), board);
+            int[] aiMove = minimaxSearch(board);
+            board = game.execute(aiMove, board);
+            System.out.println("AI's move: " + Arrays.toString(aiMove));
             printBoard(board);
             int [] humanMove = humanMove(scanner);
             board = game.execute(humanMove, board);
+            System.out.println("Your move:");
+            printBoard(board);
         }
 
         System.out.println("Game over!");
@@ -40,8 +51,6 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
         int column = scanner.nextInt() - 1;
         return new int[]{row, column};
     }
-
-
 
     public void printBoard(char[][] board) {
         for (int row = 0; row < board.length; row++) {
@@ -67,6 +76,7 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
     }
 
     public static void main(String[] args) {
+        System.out.println("Tic Tac Toe started");
         TicTacToePlayer player = new TicTacToePlayer(3);
         player.play();
     }
