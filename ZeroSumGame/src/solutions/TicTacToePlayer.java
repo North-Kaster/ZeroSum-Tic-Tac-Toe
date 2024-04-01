@@ -8,35 +8,39 @@ import java.util.Scanner;
 
 public class TicTacToePlayer extends Minimax<char[][], int[]> {
 
+    private TicTacToe game;
+    private int size;
+
     public TicTacToePlayer(int size) {
         super(new TicTacToe(size, TicTacToe.Marks.O), false);
+        this.game = new TicTacToe(size, TicTacToe.Marks.X);
+        this.size = size;
     }
 
     public void play() {
-        TicTacToe game = new TicTacToe(3, TicTacToe.Marks.X);
-        char[][] board = new char[3][3]; // Initialize the board 
-        for (int i = 0; i < 3; i++) {
+        char[][] board = new char[size][size]; // Initialize the board
+        for (int i = 0; i < size; i++) {
             Arrays.fill(board[i], ' ');
         }
         Scanner scanner = new Scanner(System.in);
         printBoard(board);
-    
+
         while (!game.isTerminal(board)) {
             int[] aiMove = minimaxSearch(board);
             board = game.execute(aiMove, board); // Update board state
             System.out.println("AI's move: " + Arrays.toString(aiMove));
             printBoard(board);
-    
+
             if (game.isTerminal(board)) {
                 break; // Break out of the loop if the AI's move ends the game
             }
-    
+
             int[] humanMove = humanMove(scanner);
             board = game.execute(humanMove, board); // Update board state
             System.out.println("Your move:");
             printBoard(board);
         }
-    
+
         System.out.println("Game over!");
         int utility = game.utility(board);
         if (utility > 0) {
@@ -47,13 +51,13 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
             System.out.println("It's a draw!");
         }
     }
-    
-    public int [] humanMove(Scanner scanner){
+
+    public int[] humanMove(Scanner scanner) {
         System.out.println("Enter your row: ");
-        int row =  scanner.nextInt() - 1;
+        int row = scanner.nextInt() - 1;
         System.out.println("Enter your column: ");
         int column = scanner.nextInt() - 1;
-        return new int[]{row, column};
+        return new int[] { row, column };
     }
 
     public void printBoard(char[][] board) {
