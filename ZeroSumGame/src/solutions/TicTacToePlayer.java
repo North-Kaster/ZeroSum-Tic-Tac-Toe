@@ -11,8 +11,8 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
     private TicTacToe game;
     private int size;
 
-    public TicTacToePlayer(int size) {
-        super(new TicTacToe(size, TicTacToe.Marks.O), false);
+    public TicTacToePlayer(int size, boolean pruning) {
+        super(new TicTacToe(size, TicTacToe.Marks.O), pruning);
         this.game = new TicTacToe(size, TicTacToe.Marks.X);
         this.size = size;
     }
@@ -28,7 +28,8 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
         while (!game.isTerminal(board)) {
             int[] aiMove = minimaxSearch(board);
             board = game.execute(aiMove, board); // Update board state
-            System.out.println("AI's move: " + Arrays.toString(aiMove));
+            // format print in 1-based index to match human move
+            System.out.println("AI's move: [Row: " + (aiMove[0] + 1) + ", Column: " + (aiMove[1] + 1) + "]"); 
             printBoard(board);
 
             if (game.isTerminal(board)) {
@@ -37,7 +38,7 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
 
             int[] humanMove = humanMove(scanner);
             board = game.execute(humanMove, board); // Update board state
-            System.out.println("Your move:");
+            System.out.println("Your move: [Row: " + (humanMove[0] + 1) + ", Column: " + (humanMove[1] + 1) + "]"); 
             printBoard(board);
         }
 
@@ -85,7 +86,7 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
 
     public static void main(String[] args) {
         System.out.println("Tic Tac Toe started");
-        TicTacToePlayer player = new TicTacToePlayer(3);
+        TicTacToePlayer player = new TicTacToePlayer(3, false);
         player.play();
     }
 }
