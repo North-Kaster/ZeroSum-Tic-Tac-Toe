@@ -14,26 +14,29 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
 
     public void play() {
         TicTacToe game = new TicTacToe(3, TicTacToe.Marks.X);
-        char[][] board = new char[3][3];
+        char[][] board = new char[3][3]; // Initialize the board 
         for (int i = 0; i < 3; i++) {
             Arrays.fill(board[i], ' ');
         }
         Scanner scanner = new Scanner(System.in);
-        
-
+        printBoard(board);
+    
         while (!game.isTerminal(board)) {
-            System.out.println("While loop start: ");
-            printBoard(board);
             int[] aiMove = minimaxSearch(board);
-            board = game.execute(aiMove, board);
+            board = game.execute(aiMove, board); // Update board state
             System.out.println("AI's move: " + Arrays.toString(aiMove));
             printBoard(board);
-            int [] humanMove = humanMove(scanner);
-            board = game.execute(humanMove, board);
+    
+            if (game.isTerminal(board)) {
+                break; // Break out of the loop if the AI's move ends the game
+            }
+    
+            int[] humanMove = humanMove(scanner);
+            board = game.execute(humanMove, board); // Update board state
             System.out.println("Your move:");
             printBoard(board);
         }
-
+    
         System.out.println("Game over!");
         int utility = game.utility(board);
         if (utility > 0) {
@@ -44,6 +47,7 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
             System.out.println("It's a draw!");
         }
     }
+    
     public int [] humanMove(Scanner scanner){
         System.out.println("Enter your row: ");
         int row =  scanner.nextInt() - 1;
