@@ -8,20 +8,12 @@ import java.util.Scanner;
 
 public class TicTacToePlayer extends Minimax<char[][], int[]> {
 
-    private TicTacToe game;
-    private int size;
-
     public TicTacToePlayer(int size, boolean pruning) {
-        super(new TicTacToe(size, TicTacToe.Marks.O), pruning);
-        this.game = new TicTacToe(size, TicTacToe.Marks.X);
-        this.size = size;
+        super(new TicTacToe(size, TicTacToe.Marks.X), pruning);
     }
 
     public void play() {
-        char[][] board = new char[size][size]; // Initialize the board
-        for (int i = 0; i < size; i++) {
-            Arrays.fill(board[i], ' ');
-        }
+        char[][] board = game.getBoard();
         Scanner scanner = new Scanner(System.in);
         printBoard(board);
 
