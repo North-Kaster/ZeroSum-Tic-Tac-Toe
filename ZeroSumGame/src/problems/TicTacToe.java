@@ -13,6 +13,14 @@ public class TicTacToe implements Game<char[][], int[]>{
 
     public enum Marks{X,O}
 
+    public char[][] getBoard() {
+        return board;
+    }
+
+    public boolean[][] getMarked() {
+        return marked;
+    }
+
     public TicTacToe(int BOARD_SIZE, Marks turn) {
         this.BOARD_SIZE = BOARD_SIZE;
         this.turn = turn;
@@ -151,6 +159,4 @@ public class TicTacToe implements Game<char[][], int[]>{
         }
         return results;
     }
-
-
 }

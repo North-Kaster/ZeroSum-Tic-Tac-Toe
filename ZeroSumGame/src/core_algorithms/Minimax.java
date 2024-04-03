@@ -3,7 +3,7 @@ package core_algorithms;
 import problems.Game;
 
 public class Minimax<S, A> {
-    private final Game<S, A> game;
+    protected final Game<S, A> game;
     private final boolean pruning;
 
     public record Best<A>(int value, A action) {};
@@ -33,12 +33,12 @@ public class Minimax<S, A> {
                     maxValue = min.value();
                     maxAction = action;
                 }
+                game.undo(action, newState);
                 // If pruning enabled and maxValue is greater than or equal to beta
                 if (pruning && maxValue >= beta) {
                     return new Best<>(maxValue, maxAction);
                 }
                 alpha = Math.max(alpha, maxValue);
-                game.undo(action, newState);
             }
         }
         return new Best<>(maxValue, maxAction);
@@ -57,12 +57,12 @@ public class Minimax<S, A> {
                     minValue = max.value();
                     minAction = action;
                 }
+                game.undo(action, newState);
                 // If pruning enabled and minValue is less than or equal to alpha
                 if (pruning && minValue <= alpha) { 
                     return new Best<>(minValue, minAction);
                 }
                 beta = Math.min(beta, minValue);
-                game.undo(action, newState);
             }
         }
         return new Best<>(minValue, minAction);
