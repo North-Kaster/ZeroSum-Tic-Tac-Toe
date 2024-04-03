@@ -2,14 +2,17 @@ package solutions;
 
 import core_algorithms.Minimax;
 import problems.TicTacToe;
-
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class TicTacToePlayer extends Minimax<char[][], int[]> {
+    private int boardSize;
 
     public TicTacToePlayer(int size, boolean pruning) {
         super(new TicTacToe(size, TicTacToe.Marks.X), pruning);
+        this.boardSize = size;
+    }
+    public int getBoardSize() {
+        return this.boardSize;
     }
 
     public void play() {
@@ -34,7 +37,10 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
             System.out.println("Your move was: [Row: " + (humanMove[0] + 1) + ", Column: " + (humanMove[1] + 1) + "]"); 
             printBoard(board);
         }
+        DecideAndPrintWinner(board);
+    }
 
+    private void DecideAndPrintWinner(char[][] board) {
         System.out.println("Game over!");
         int utility = game.utility(board);
         if (utility > 0) {
@@ -53,7 +59,10 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
             row = scanner.nextInt() - 1;
             System.out.println("Enter column #: ");
             column = scanner.nextInt() - 1;
-            if (game.getMarked()[row][column]) {
+            if (row < 0 || row >= boardSize || column < 0 || column >= boardSize) {
+                System.out.println
+                ("Invalid move, please enter a row and column within the board size. The current board size is: " + boardSize + "x" + boardSize + ".");
+            } else if (game.getMarked()[row][column]) {
                 System.out.println("That space is already marked, please choose a different space.");
             } else {
                 break;
@@ -104,7 +113,7 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
             Good luck!
             """);
         // Adjust board size and pruning here
-        TicTacToePlayer player = new TicTacToePlayer(4, true);
+        TicTacToePlayer player = new TicTacToePlayer(3, false);
         player.play();
     }
 }
