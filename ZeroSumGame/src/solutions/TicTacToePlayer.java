@@ -104,7 +104,7 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
             Good luck!
             """);
         // Adjust board size and pruning here
-        TicTacToePlayer player = new TicTacToePlayer(3, false);
+        TicTacToePlayer player = new TicTacToePlayer(4, true);
         player.play();
     }
 }
