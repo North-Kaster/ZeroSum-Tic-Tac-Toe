@@ -3,7 +3,7 @@ package core_algorithms;
 import problems.Game;
 
 public class Minimax<S, A> {
-    private final Game<S, A> game;
+    protected final Game<S, A> game;
     private final boolean pruning;
 
     public record Best<A>(int value, A action) {};
