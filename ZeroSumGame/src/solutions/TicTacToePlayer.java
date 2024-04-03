@@ -18,19 +18,20 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
         printBoard(board);
 
         while (!game.isTerminal(board)) {
+            System.out.println("AI's turn!");
             int[] aiMove = minimaxSearch(board);
             board = game.execute(aiMove, board); // Update board state
             // format print in 1-based index to match human move
-            System.out.println("AI's move: [Row: " + (aiMove[0] + 1) + ", Column: " + (aiMove[1] + 1) + "]"); 
+            System.out.println("AI's move was: [Row: " + (aiMove[0] + 1) + ", Column: " + (aiMove[1] + 1) + "]"); 
             printBoard(board);
 
             if (game.isTerminal(board)) {
                 break; // Break out of the loop if the AI's move ends the game
             }
-
+            System.out.println("Your turn!");
             int[] humanMove = humanMove(scanner);
             board = game.execute(humanMove, board); // Update board state
-            System.out.println("Your move: [Row: " + (humanMove[0] + 1) + ", Column: " + (humanMove[1] + 1) + "]"); 
+            System.out.println("Your move was: [Row: " + (humanMove[0] + 1) + ", Column: " + (humanMove[1] + 1) + "]"); 
             printBoard(board);
         }
 
@@ -46,10 +47,18 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
     }
 
     public int[] humanMove(Scanner scanner) {
-        System.out.println("Enter your row: ");
-        int row = scanner.nextInt() - 1;
-        System.out.println("Enter your column: ");
-        int column = scanner.nextInt() - 1;
+        int row, column;
+        do {
+            System.out.println("Enter row #: ");
+            row = scanner.nextInt() - 1;
+            System.out.println("Enter column #: ");
+            column = scanner.nextInt() - 1;
+            if (game.getMarked()[row][column]) {
+                System.out.println("That space is already marked, please choose a different space.");
+            } else {
+                break;
+            }
+        } while (true);
         return new int[] { row, column };
     }
 
@@ -77,7 +86,24 @@ public class TicTacToePlayer extends Minimax<char[][], int[]> {
     }
 
     public static void main(String[] args) {
-        System.out.println("Tic Tac Toe started");
+        System.out.println("""
+            Welcome to Tic Tac Toe. The AI will play as X and you will play as O. 
+            On your turn, enter your desired row and column numbers to make your mark. 
+            The board is 1-indexed, starting at (1,1) in the top left corner.
+
+            For reference, here are the row#/column# combinations for a 3x3 board:
+
+            1,1|1,2|1,3
+            ---+---+---
+            2,1|2,2|2,3
+            ---+---+---
+            3,1|3,2|3,3
+
+            --------------------------------------------------------------------------
+            
+            Good luck!
+            """);
+        // Adjust board size and pruning here
         TicTacToePlayer player = new TicTacToePlayer(3, false);
         player.play();
     }

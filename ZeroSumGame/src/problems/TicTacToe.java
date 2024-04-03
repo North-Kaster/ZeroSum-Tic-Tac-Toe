@@ -17,6 +17,10 @@ public class TicTacToe implements Game<char[][], int[]>{
         return board;
     }
 
+    public boolean[][] getMarked() {
+        return marked;
+    }
+
     public TicTacToe(int BOARD_SIZE, Marks turn) {
         this.BOARD_SIZE = BOARD_SIZE;
         this.turn = turn;
